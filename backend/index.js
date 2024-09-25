@@ -1,16 +1,31 @@
 const express = require("express");
+const { createTodo, updateTodo } = require("./types");
+const cors = require("cors");
 const app = express();
+
+app.use(cors());
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/user", function(req, res) {
-    res.send("hi there");
-
+app.get("/todos", function (req, res) {
+  res.json({
+    message: " hi there from backend",
+  });
 });
 
-app.post("/admin", function(req, res) {
-    console.log(req.body);
-    console.log(req.headers);
-    res.send("hi from post");
-})
+app.post("/todo", function (req, res) {
+  const createPayload = req.body;
+  const parsedPayload = createTodo.safeParse(createPayload);
+  const { description } = parsedPayload.data;
+  console.log(parsedPayload);
+  res.json({
+    message: description,
+  });
+});
 
-app.listen(3000);
+app.put("/completed", () => {});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
