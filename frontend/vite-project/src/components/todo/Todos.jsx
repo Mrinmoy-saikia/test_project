@@ -21,12 +21,21 @@ import PropTypes from "prop-types";
 //   );
 // };
 
-const Todos = ({ basename, title, age }) => {
+const Todos = ({ basename, title, age, users }) => {
   return (
     <div>
       hello world {basename} {title}
       <UpdateTodo age={age} />
       <NewTodo />
+      {users?.map((user) => {
+        return (
+          <div key={user.id}>
+            <div>id: {user.id}</div>
+            <div>name: {user.name}</div>
+            <div>username: {user.username}</div>
+          </div>
+        );
+      })}
     </div>
   );
 };
