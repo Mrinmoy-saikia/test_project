@@ -1,16 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const NewTodo = () => {
-  const [curr, setCurr] = useState(0);
-  const handleCurr = (param) => {
-    setCurr(param);
+function Tododiv({ id }) {
+  const [todo, setTodo] = useState([]);
+  const fetchtodo = async () => {
+    const response = await fetch(
+      "https://jsonplaceholder.typicode.com/todos?id=" + id
+    );
+    const res = await response.json();
+    setTodo(res[0]);
   };
+
+  useEffect(() => {
+    //settimeout with of delay 1 sec
+    setTimeout(() => {
+      fetchtodo();
+    }, 1000);
+  }, [id]); //with [] is dependency
+
   return (
-    <div id="NewTodo">
-      <button onClick={() => handleCurr(curr + 1)}>Curr</button>
-      <div>{curr}</div>
+    <div>
+      {todo ? ( // Only render if the todo has been fetched
+        <>
+          <h2>{todo.id}</h2>
+          <h3>{todo.title}</h3>
+          <h4>{todo.completed ? "Completed" : "Not Completed"}</h4>
+        </>
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   );
-};
+}
 
-export default NewTodo;
+export default Tododiv;

@@ -8,7 +8,8 @@
 //   );
 // }
 
-import NewTodo from "./NewTodo";
+import { useState } from "react";
+import Tododiv from "./NewTodo";
 import UpdateTodo from "./UpdateTodo";
 import PropTypes from "prop-types";
 // const Todos = (props) => {
@@ -22,11 +23,19 @@ import PropTypes from "prop-types";
 // };
 
 const Todos = ({ basename, title, age, users }) => {
+  const [idCount, setIdCount] = useState(1);
+  const handleClick = (param) => {
+    setIdCount(param);
+  };
   return (
     <div>
       hello world {basename} {title}
       <UpdateTodo age={age} />
-      <NewTodo />
+      <button onClick={() => handleClick(1)}>1 </button>
+      <button onClick={() => handleClick(2)}>2</button>
+      <button onClick={() => handleClick(3)}>3</button>
+      <button onClick={() => handleClick(4)}>4</button>
+      <Tododiv id={idCount} />
       {users?.map((user) => {
         return (
           <div key={user.id}>

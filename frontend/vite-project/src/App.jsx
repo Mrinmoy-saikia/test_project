@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import Todos from "./components/todo/Todos";
 // import { Todos } from "./components/todo/Todos";
@@ -6,6 +6,9 @@ import Todos from "./components/todo/Todos";
 function App() {
   const [data, setData] = useState(null);
   const [users, setUsers] = useState([]);
+  // const [sum, setSum] = useState(0);
+
+  const [inputValue, setInputValue] = useState("");
 
   const fetchUserData = async () => {
     const response = await fetch("https://jsonplaceholder.typicode.com/users");
@@ -41,6 +44,26 @@ function App() {
   //   const res = await response.json();
   //   setData(res);
   // };
+
+  //using memo
+  const count = useMemo(() => {
+    let total = 0;
+    for (let i = 0; i <= inputValue; i++) {
+      total = total + i;
+    }
+    return total;
+  }, [inputValue]);
+
+  //using useEffect
+  // useEffect(() => {
+  //   let total = 0;
+  //   for (let i = 0; i < inputValue; i++) {
+  //     total = total + i;
+  //   }
+  //   setSum(total);
+  // }, [inputValue]);
+
+  // console.log("sum", sum);
   console.log("data ", data);
   const name = "Afridi";
   const title = "Todo app";
@@ -52,14 +75,27 @@ function App() {
         {/* <button onClick={apiHandler}>call api</button>
         {data && <div>{data.message}</div>} */}
         {/* <Todos todos={data}></Todos> */}
-        <Todos basename={name} users={users} title={title} age={age} />
+
+        <Todos basename={name} title={title} age={age} />
+
+        <input
+          type="number"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          placeholder="any num"
+        ></input>
+        {/* <button onClick={() => sumupto(inputValue)}>find</button> */}
+        <div>
+          sum from 1 to {inputValue} is {count}
+        </div>
+
         {/* ? means users && users.map */}
-        {/* {users?.map((user) => {
+        {/* {todo?.map((tod) => {
           return (
-            <div key={user.id}>
-              <div>id: {user.id}</div>
-              <div>name: {user.name}</div>
-              <div>username: {user.username}</div>
+            <div key={tod.id}>
+              <div>id: {tod.userId}</div>
+              <div>name: {tod.title}</div>
+              <div>Completed: {tod.completed}</div>
             </div>
           );
         })} */}
